@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tingkat_kehadirans",
+  "info": {
+    "singularName": "tingkat-kehadiran",
+    "pluralName": "tingkat-kehadirans",
+    "displayName": "Tingkat Kehadiran",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hasil": {
+      "type": "decimal"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "tingkat_kehadirans"
+    }
+  }
+}

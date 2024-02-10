@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "productivity_individus",
+  "info": {
+    "singularName": "productivity-individu",
+    "pluralName": "productivity-individus",
+    "displayName": "Productivity Individu",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    },
+    "hasil": {
+      "type": "decimal"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    }
+  }
+}

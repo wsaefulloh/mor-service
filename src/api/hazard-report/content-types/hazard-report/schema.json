@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hazard_reports",
+  "info": {
+    "singularName": "hazard-report",
+    "pluralName": "hazard-reports",
+    "displayName": "Hazard Report",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    },
+    "hasil": {
+      "type": "decimal"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    }
+  }
+}

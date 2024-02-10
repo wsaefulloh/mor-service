@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "keseringan_insidens",
+  "info": {
+    "singularName": "keseringan-insiden",
+    "pluralName": "keseringan-insidens",
+    "displayName": "Keseringan Insiden",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "hasil": {
+      "type": "decimal"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    },
+    "tahun": {
+      "type": "string"
+    },
+    "bulan": {
+      "type": "string"
+    }
+  }
+}

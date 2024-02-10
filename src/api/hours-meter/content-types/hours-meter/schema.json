@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hours_meters",
+  "info": {
+    "singularName": "hours-meter",
+    "pluralName": "hours-meters",
+    "displayName": "Hours Meter",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    },
+    "total_hm": {
+      "type": "decimal"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "role_mors",
+  "info": {
+    "singularName": "role-mor",
+    "pluralName": "role-mors",
+    "displayName": "Role MOR",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}
