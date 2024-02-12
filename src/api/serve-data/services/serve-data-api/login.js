@@ -18,9 +18,27 @@ module.exports = {
                     where uu.email = '${email}' AND uu.password_mor = '${password}') a`
             );
 
-            let data = {
-                data: userInfo[0]
-            };
+            let data
+
+            let tokenPayload = { id: userInfo[0][0].user_id }
+            console.log(tokenPayload)
+            const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' })
+            console.log(token)
+
+            if (userInfo[0].length != 0) {
+                data = {
+                    status: 200,
+                    message: "Login Success",
+                    data: userInfo[0],
+                    token: token
+                };
+            } else {
+                data = {
+                    status: 401,
+                    message: "Unauthenticated",
+                    data: userInfo[0]
+                };
+            }
 
             return data;
         } catch (error) {

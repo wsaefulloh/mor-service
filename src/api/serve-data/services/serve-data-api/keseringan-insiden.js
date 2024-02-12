@@ -19,14 +19,14 @@ module.exports = {
 
             let whereQueryFirst = "";
             let whereQuerySecond = "";
-            let user_id_requested = 0;
+            // let user_id_requested = 0;
 
-            //Checking User ID yang sedang login
-            if (authentication && authentication.startsWith("Bearer")) {
-                let access_token = authentication.split(" ")[1];
-                const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
-                user_id_favorites = decoded.id;
-            }
+            // //Checking User ID yang sedang login
+            // if (authentication && authentication.startsWith("Bearer")) {
+            //     let access_token = authentication.split(" ")[1];
+            //     const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
+            //     user_id_favorites = decoded.id;
+            // }
 
             const { limit, offset } = getPagination(page, size);
             let limitOffset = `LIMIT :limit OFFSET :offset`;
@@ -79,7 +79,10 @@ module.exports = {
             let query = `
             select * from (
             select uu.id as user_id, uu.name, uu.nrp, uu.jabatan,
-            uu.versatility, uu.grade from up_users uu ) a
+            uu.versatility, uu.grade from up_users uu
+            left join up_users_role_mor_links uurml on uurml.user_id = uu.id 
+            left join role_mors rm on rm.id = uurml.role_mor_id 
+            where rm.id = 2 ) a
             `
 
             let result;

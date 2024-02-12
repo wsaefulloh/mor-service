@@ -291,9 +291,10 @@ module.exports = () => ({
             );
 
             let payload = {
-                status: 200,
-                message: "OK",
-                data: result
+                status: result.status,
+                message: result.message,
+                data: result?.data ?? [],
+                token: result?.token ?? ""
             };
 
             return payload;

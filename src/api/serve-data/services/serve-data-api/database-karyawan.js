@@ -16,14 +16,14 @@ module.exports = {
             }
 
             let whereQuery = "";
-            let user_id_requested = 0;
+            // let user_id_requested = 0;
 
-            //Checking User ID yang sedang login
-            if (authentication && authentication.startsWith("Bearer")) {
-                let access_token = authentication.split(" ")[1];
-                const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
-                user_id_requested = decoded.id;
-            }
+            // //Checking User ID yang sedang login
+            // if (authentication && authentication.startsWith("Bearer")) {
+            //     let access_token = authentication.split(" ")[1];
+            //     const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
+            //     user_id_requested = decoded.id;
+            // }
 
             const { limit, offset } = getPagination(page, size);
             let limitOffset = `LIMIT :limit OFFSET :offset`;
