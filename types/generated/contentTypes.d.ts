@@ -796,37 +796,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCurrencyCurrency extends Schema.CollectionType {
-  collectionName: 'currencies';
-  info: {
-    singularName: 'currency';
-    pluralName: 'currencies';
-    displayName: 'Currency';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    nama: Attribute.String;
-    last_update: Attribute.Date;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::currency.currency',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::currency.currency',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiDisiplinKerjaDisiplinKerja extends Schema.CollectionType {
   collectionName: 'disiplin_kerjas';
   info: {
@@ -1111,7 +1080,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::currency.currency': ApiCurrencyCurrency;
       'api::disiplin-kerja.disiplin-kerja': ApiDisiplinKerjaDisiplinKerja;
       'api::hazard-report.hazard-report': ApiHazardReportHazardReport;
       'api::hours-meter.hours-meter': ApiHoursMeterHoursMeter;
