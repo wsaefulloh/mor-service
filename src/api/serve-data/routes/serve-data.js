@@ -81,5 +81,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: "POST",
+      path: "/serve-data/import",
+      handler: "serve-data.importDataMorCtr",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

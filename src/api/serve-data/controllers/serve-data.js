@@ -5,6 +5,17 @@
  */
 
 module.exports = {
+  importDataMorCtr: async (ctx, next) => {
+    try {
+      const data = await strapi
+        .service("api::serve-data.serve-data")
+        .importDataMor(ctx.request);
+      ctx.response.status = data.status;
+      ctx.body = data;
+    } catch (err) {
+      ctx.badRequest("Location Name controller error", { moreDetails: err });
+    }
+  },
   getTingkatKehadiranCtr: async (ctx, next) => {
     try {
       const data = await strapi

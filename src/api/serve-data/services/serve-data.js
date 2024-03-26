@@ -9,12 +9,42 @@ const { getProductivityIndividu } = require("./serve-data-api/productivity-indiv
 const { getDatabaseKaryawan } = require("./serve-data-api/database-karyawan");
 const { getNilaiMorKaryawan } = require("./serve-data-api/nilai-mor");
 const { login } = require("./serve-data-api/login");
+const { importMor } = require("./serve-data-api/import-mor");
 
 /**
  * serve-data service
  */
 
 module.exports = () => ({
+
+    importDataMor: async (req) => {
+        try {
+            let authentication = req.headers.authorization;
+            let searchComponent = req.body;
+
+            console.log(searchComponent)
+
+            let result = await importMor(
+                searchComponent,
+                authentication
+            );
+
+            let payload = {
+                status: 200,
+                message: "OK",
+            };
+
+            return payload;
+        } catch (error) {
+            console.log(error);
+            let payload = {
+                status: 500,
+                message: error,
+            };
+            return payload;
+        }
+    },
+
     getTingkatKehadiranAPI: async (req) => {
         try {
             let authentication = req.headers.authorization;
