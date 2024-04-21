@@ -90,5 +90,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: "GET",
+      path: "/serve-data/status-import",
+      handler: "serve-data.getStatusImportCtr",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

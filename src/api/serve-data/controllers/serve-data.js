@@ -5,6 +5,18 @@
  */
 
 module.exports = {
+
+  getStatusImportCtr: async (ctx, next) => {
+    try {
+      const data = await strapi
+        .service("api::serve-data.serve-data")
+        .getStatusImportService(ctx.request);
+      ctx.response.status = data.status;
+      ctx.body = data;
+    } catch (err) {
+      ctx.badRequest("Location Name controller error", { moreDetails: err });
+    }
+  },
   importDataMorCtr: async (ctx, next) => {
     try {
       const data = await strapi

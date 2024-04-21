@@ -131,33 +131,57 @@ module.exports = {
                 let e = arrayResult[i];
 
                 let newResult
+                let newResult2
 
                 let tingkatKehadiranQuery =
                     `
-                    select * from (select uu.id as user_id, tk.id as tingkat_kehadiran_id, tk.hasil, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun from tingkat_kehadirans tk 
+                    select * from (select uu.id as user_id, tk.id as tingkat_kehadiran_id, tk.hasil, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun, tk.created_at, tk.updated_at, uu2.name as created_by, uu3.name as updated_by from tingkat_kehadirans tk 
                         left join tingkat_kehadirans_user_name_links tkunl on tkunl.tingkat_kehadiran_id = tk.id 
                         left join up_users uu on uu.id = tkunl.user_id 
+                        left join up_users uu2 on uu2.id = tk.created_by_id_user
+                        left join up_users uu3 on uu3.id = tk.updated_by_id_user
                         where uu.id = ${e.user_id}) a
                     `
+
+                let disiplinQuery =
+                    `
+                select * from (select uu.id as user_id, tk.id as disiplin_kerja_id, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun, tk.created_at, tk.updated_at, uu2.name as created_by, uu3.name as updated_by from disiplin_kerjas tk 
+                    left join disiplin_kerjas_user_name_links tkunl on tkunl.disiplin_kerja_id = tk.id 
+                    left join up_users uu on uu.id = tkunl.user_id 
+                    left join up_users uu2 on uu2.id = tk.created_by_id_user
+                    left join up_users uu3 on uu3.id = tk.updated_by_id_user
+                    where uu.id = ${e.user_id}) a
+                `
 
                 if (whereQuerySecond.length != 0) {
                     newResult = await strapi.db.connection.context.raw(
                         `${tingkatKehadiranQuery} WHERE ${whereQuerySecond}`
                     );
+                    newResult2 = await strapi.db.connection.context.raw(
+                        `${disiplinQuery} WHERE ${whereQuerySecond}`
+                    );
                 } else {
                     newResult = await strapi.db.connection.context.raw(
                         `${tingkatKehadiranQuery}`
+                    );
+                    newResult2 = await strapi.db.connection.context.raw(
+                        `${disiplinQuery}`
                     );
                 }
 
                 let objResult = {
                     ...e,
                     tingkat_kehadiran_id: newResult[0][0]?.tingkat_kehadiran_id ?? 0,
+                    disiplin_id: newResult2[0][0]?.disiplin_kerja_id ?? 0,
                     hasil: newResult[0][0]?.hasil ?? 0,
                     nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
                     nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
                     bulan: newResult[0][0]?.bulan ?? `${month}`,
                     tahun: newResult[0][0]?.tahun ?? `${year}`,
+                    created_at: newResult[0][0]?.created_at ?? '-',
+                    updated_at: newResult[0][0]?.updated_at ?? '-',
+                    created_by: newResult[0][0]?.created_by ?? '-',
+                    updated_by: newResult[0][0]?.updated_by ?? '-'
                 }
 
                 resultWithTingkatKehadiran.push(objResult)

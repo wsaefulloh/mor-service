@@ -817,6 +817,8 @@ export interface ApiDisiplinKerjaDisiplinKerja extends Schema.CollectionType {
     nilai_akhir: Attribute.Decimal;
     bulan: Attribute.String;
     tahun: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -856,6 +858,8 @@ export interface ApiHazardReportHazardReport extends Schema.CollectionType {
     hasil: Attribute.Decimal;
     nilai_mor: Attribute.Decimal;
     nilai_akhir: Attribute.Decimal;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -895,6 +899,8 @@ export interface ApiHoursMeterHoursMeter extends Schema.CollectionType {
     total_hm: Attribute.Decimal;
     bulan: Attribute.String;
     tahun: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -935,6 +941,8 @@ export interface ApiKeseringanInsidenKeseringanInsiden
     nilai_akhir: Attribute.Decimal;
     tahun: Attribute.String;
     bulan: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -975,6 +983,8 @@ export interface ApiProductivityIndividuProductivityIndividu
     hasil: Attribute.Decimal;
     bulan: Attribute.String;
     tahun: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1022,6 +1032,41 @@ export interface ApiRoleMorRoleMor extends Schema.CollectionType {
   };
 }
 
+export interface ApiStatusImportStatusImport extends Schema.CollectionType {
+  collectionName: 'status_imports';
+  info: {
+    singularName: 'status-import';
+    pluralName: 'status-imports';
+    displayName: 'Status Import';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    nama_file: Attribute.String;
+    bulan: Attribute.String;
+    tahun: Attribute.String;
+    status: Attribute.Enumeration<['Pending', 'Process', 'Done', 'Failed']>;
+    created_by_id_user: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::status-import.status-import',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::status-import.status-import',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTingkatKehadiranTingkatKehadiran
   extends Schema.CollectionType {
   collectionName: 'tingkat_kehadirans';
@@ -1040,6 +1085,8 @@ export interface ApiTingkatKehadiranTingkatKehadiran
     nilai_akhir: Attribute.Decimal;
     bulan: Attribute.String;
     tahun: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
     user_name: Attribute.Relation<
       'api::tingkat-kehadiran.tingkat-kehadiran',
       'manyToOne',
@@ -1086,6 +1133,7 @@ declare module '@strapi/types' {
       'api::keseringan-insiden.keseringan-insiden': ApiKeseringanInsidenKeseringanInsiden;
       'api::productivity-individu.productivity-individu': ApiProductivityIndividuProductivityIndividu;
       'api::role-mor.role-mor': ApiRoleMorRoleMor;
+      'api::status-import.status-import': ApiStatusImportStatusImport;
       'api::tingkat-kehadiran.tingkat-kehadiran': ApiTingkatKehadiranTingkatKehadiran;
     }
   }

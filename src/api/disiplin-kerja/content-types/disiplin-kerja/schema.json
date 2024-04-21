@@ -28,6 +28,12 @@
     },
     "tahun": {
       "type": "string"
+    },
+    "created_by_id_user": {
+      "type": "integer"
+    },
+    "updated_by_id_user": {
+      "type": "integer"
     }
   }
 }

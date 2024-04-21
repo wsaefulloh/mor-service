@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "status_imports",
+  "info": {
+    "singularName": "status-import",
+    "pluralName": "status-imports",
+    "displayName": "Status Import",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nama_file": {
+      "type": "string"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Pending",
+        "Process",
+        "Done",
+        "Failed"
+      ]
+    },
+    "created_by_id_user": {
+      "type": "integer"
+    }
+  }
+}

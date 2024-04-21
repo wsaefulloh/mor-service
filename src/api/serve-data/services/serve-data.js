@@ -10,12 +10,41 @@ const { getDatabaseKaryawan } = require("./serve-data-api/database-karyawan");
 const { getNilaiMorKaryawan } = require("./serve-data-api/nilai-mor");
 const { login } = require("./serve-data-api/login");
 const { importMor } = require("./serve-data-api/import-mor");
+const { getStatusImport } = require("./serve-data-api/status-import");
 
 /**
  * serve-data service
  */
 
 module.exports = () => ({
+
+    getStatusImportService: async (req) => {
+        try {
+            let authentication = req.headers.authorization;
+            let searchComponent = req.query;
+
+            let result = await getStatusImport(
+                searchComponent,
+                authentication
+            );
+
+            let payload = {
+                data: result,
+                status: 200,
+                message: "OK",
+            };
+
+            return payload;
+
+        } catch (error) {
+            console.log(error);
+            let payload = {
+                status: 500,
+                message: error,
+            };
+            return payload;
+        }
+    },
 
     importDataMor: async (req) => {
         try {
@@ -35,6 +64,7 @@ module.exports = () => ({
             };
 
             return payload;
+
         } catch (error) {
             console.log(error);
             let payload = {
