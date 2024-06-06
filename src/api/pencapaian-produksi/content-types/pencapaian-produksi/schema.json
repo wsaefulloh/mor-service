@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pencapaian_produksis",
+  "info": {
+    "singularName": "pencapaian-produksi",
+    "pluralName": "pencapaian-produksis",
+    "displayName": "Pencapaian Produksi",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "nilai_mor": {
+      "type": "decimal"
+    },
+    "nilai_akhir": {
+      "type": "decimal"
+    },
+    "hasil": {
+      "type": "decimal"
+    },
+    "bulan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "string"
+    },
+    "created_by_id_user": {
+      "type": "integer"
+    },
+    "updated_by_id_user": {
+      "type": "integer"
+    }
+  }
+}

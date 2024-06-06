@@ -99,5 +99,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: "GET",
+      path: "/serve-data/get-peringatan",
+      handler: "serve-data.getSuratPeringatanCtr",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

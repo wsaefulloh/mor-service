@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "data_surat_peringatans",
+  "info": {
+    "singularName": "data-surat-peringatan",
+    "pluralName": "data-surat-peringatans",
+    "displayName": "Data Surat Peringatan",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_name": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "start_date": {
+      "type": "string"
+    },
+    "end_date": {
+      "type": "string"
+    },
+    "jenis_disiplin_report": {
+      "type": "string"
+    },
+    "pasal_pelanggaran": {
+      "type": "text"
+    },
+    "created_by_id_user": {
+      "type": "integer"
+    },
+    "updated_by_id_user": {
+      "type": "integer"
+    }
+  }
+}

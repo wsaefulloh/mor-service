@@ -1,4 +1,5 @@
 "use strict";
+const { getNilaiAkhirMOR, getMorKombinasi, getFormatDate, getStatus } = require("../../../../../helpers/calculate");
 const { getPagination, getPagingData } = require("../../../../../helpers/paging");
 const jwt = require("jsonwebtoken");
 
@@ -19,14 +20,6 @@ module.exports = {
 
             let whereQuery = "";
             let whereQuerySecond = "";
-            // let user_id_requested = 0;
-
-            // //Checking User ID yang sedang login
-            // if (authentication && authentication.startsWith("Bearer")) {
-            //     let access_token = authentication.split(" ")[1];
-            //     const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
-            //     user_id_requested = decoded.id;
-            // }
 
             const { limit, offset } = getPagination(page, size);
             let limitOffset = `LIMIT :limit OFFSET :offset`;
@@ -151,49 +144,11 @@ module.exports = {
                 let objResult = {
                     ...e,
                     tingkat_kehadiran_id: newResult[0][0]?.tingkat_kehadiran_id ?? 0,
-                    tingkat_kehadiran_hasil: newResult[0][0]?.hasil ?? 0,
-                    tingkat_kehadiran_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    tingkat_kehadiran_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
+                    tingkat_kehadiran_hasil: newResult[0][0]?.hasil.toFixed(2) ?? 0,
+                    tingkat_kehadiran_nilai_mor: newResult[0][0]?.nilai_mor.toFixed(2) ?? 0,
+                    tingkat_kehadiran_bobot: 20,
+                    tingkat_kehadiran_nilai_akhir: ((newResult[0][0]?.nilai_mor ?? 0) * (20 / 100)).toFixed(2),
                     tingkat_kehadiran_kategori: newResult[0][0]?.hasil >= 0 && newResult[0][0]?.hasil <= 95.90 ? "K" : newResult[0][0]?.hasil >= 96.00 && newResult[0][0]?.hasil <= 96.90 ? "C" : newResult[0][0]?.hasil >= 97 && newResult[0][0]?.hasil <= 97.90 ? "B" : newResult[0][0]?.hasil >= 98 && newResult[0][0]?.hasil <= 98.90 ? "BS" : newResult[0][0]?.hasil >= 99 && newResult[0][0]?.hasil <= 100 ? "IST" : "error",
-                    bulan: newResult[0][0]?.bulan ?? `${month}`,
-                    tahun: newResult[0][0]?.tahun ?? `${year}`,
-                }
-
-                resultWithTingkatKehadiran.push(objResult)
-            }
-
-            arrayResult = resultWithTingkatKehadiran
-            resultWithTingkatKehadiran = []
-
-            for (let i = 0; i < arrayResult.length; i++) {
-                let e = arrayResult[i];
-
-                let newResult
-
-                let tingkatKehadiranQuery =
-                    `
-                    select * from (select uu.id as user_id, tk.id as disiplin_kerja_id, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun from disiplin_kerjas tk 
-                        left join disiplin_kerjas_user_name_links tkunl on tkunl.disiplin_kerja_id = tk.id 
-                        left join up_users uu on uu.id = tkunl.user_id 
-                        where uu.id = ${e.user_id}) a
-                    `
-
-                if (whereQuerySecond.length != 0) {
-                    newResult = await strapi.db.connection.context.raw(
-                        `${tingkatKehadiranQuery} WHERE ${whereQuerySecond}`
-                    );
-                } else {
-                    newResult = await strapi.db.connection.context.raw(
-                        `${tingkatKehadiranQuery}`
-                    );
-                }
-
-                let objResult = {
-                    ...e,
-                    disiplin_kerja_id: newResult[0][0]?.disiplin_kerja_id ?? 0,
-                    disiplin_kerja_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    disiplin_kerja_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
-                    disiplin_kerja_kategori: newResult[0][0]?.nilai_mor >= 0 && newResult[0][0]?.nilai_mor <= 1 ? "K" : newResult[0][0]?.nilai_mor >= 2 && newResult[0][0]?.nilai_mor <= 2 ? "C" : newResult[0][0]?.nilai_mor >= 3 && newResult[0][0]?.nilai_mor <= 3 ? "B" : newResult[0][0]?.nilai_mor >= 4 && newResult[0][0]?.nilai_mor <= 4 ? "BS" : newResult[0][0]?.nilai_mor >= 5 && newResult[0][0]?.nilai_mor <= 5 ? "IST" : "error",
                     bulan: newResult[0][0]?.bulan ?? `${month}`,
                     tahun: newResult[0][0]?.tahun ?? `${year}`,
                 }
@@ -230,50 +185,11 @@ module.exports = {
                 let objResult = {
                     ...e,
                     hours_meter_id: newResult[0][0]?.hours_meter_id ?? 0,
-                    hours_meter_hasil: newResult[0][0]?.total_hm ?? 0,
-                    hours_meter_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    hours_meter_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
-                    hours_meter_kategori: newResult[0][0]?.total_hm >= 0 && newResult[0][0]?.total_hm <= 129 ? "K" : newResult[0][0]?.total_hm >= 130 && newResult[0][0]?.total_hm <= 179 ? "C" : newResult[0][0]?.total_hm >= 180 && newResult[0][0]?.total_hm <= 229 ? "B" : newResult[0][0]?.total_hm >= 230 && newResult[0][0]?.total_hm <= 279 ? "BS" : newResult[0][0]?.total_hm >= 280 && newResult[0][0]?.total_hm <= 500 ? "IST" : "error",
-                    bulan: newResult[0][0]?.bulan ?? `${month}`,
-                    tahun: newResult[0][0]?.tahun ?? `${year}`,
-                }
-
-                resultWithTingkatKehadiran.push(objResult)
-            }
-
-            arrayResult = resultWithTingkatKehadiran
-            resultWithTingkatKehadiran = []
-
-            for (let i = 0; i < arrayResult.length; i++) {
-                let e = arrayResult[i];
-
-                let newResult
-
-                let tingkatKehadiranQuery =
-                    `
-                    select * from (select uu.id as user_id, tk.id as productivity_individu_id, tk.hasil, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun from productivity_individus tk 
-                        left join productivity_individus_user_name_links tkunl on tkunl.productivity_individu_id = tk.id 
-                        left join up_users uu on uu.id = tkunl.user_id 
-                        where uu.id = ${e.user_id}) a
-                    `
-
-                if (whereQuerySecond.length != 0) {
-                    newResult = await strapi.db.connection.context.raw(
-                        `${tingkatKehadiranQuery} WHERE ${whereQuerySecond}`
-                    );
-                } else {
-                    newResult = await strapi.db.connection.context.raw(
-                        `${tingkatKehadiranQuery}`
-                    );
-                }
-
-                let objResult = {
-                    ...e,
-                    productivity_individu_id: newResult[0][0]?.productivity_individu_id ?? 0,
-                    productivity_individu_hasil: newResult[0][0]?.hasil ?? 0,
-                    productivity_individu_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    productivity_individu_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
-                    productivity_individu_kategori: newResult[0][0]?.hasil >= 0 && newResult[0][0]?.hasil <= 84.99 ? "K" : newResult[0][0]?.hasil >= 85.00 && newResult[0][0]?.hasil <= 89.99 ? "C" : newResult[0][0]?.hasil >= 89 && newResult[0][0]?.hasil <= 94.99 ? "B" : newResult[0][0]?.hasil >= 95 && newResult[0][0]?.hasil <= 99.99 ? "BS" : newResult[0][0]?.hasil >= 100 && newResult[0][0]?.hasil <= 150 ? "IST" : "error",
+                    hours_meter_hasil: newResult[0][0]?.total_hm.toFixed(2) ?? 0,
+                    hours_meter_nilai_mor: newResult[0][0]?.nilai_mor.toFixed(2) ?? 0,
+                    hours_meter_bobot: 20,
+                    hours_meter_nilai_akhir: ((newResult[0][0]?.nilai_mor ?? 0) * (20 / 100)).toFixed(2),
+                    hours_meter_kategori: newResult[0][0]?.total_hm >= 0 && newResult[0][0]?.total_hm <= 20.99 ? "K" : newResult[0][0]?.total_hm >= 21.00 && newResult[0][0]?.total_hm <= 40.99 ? "C" : newResult[0][0]?.total_hm >= 41.00 && newResult[0][0]?.total_hm <= 60.99 ? "B" : newResult[0][0]?.total_hm >= 61.00 && newResult[0][0]?.total_hm <= 80.99 ? "BS" : newResult[0][0]?.total_hm >= 81.00 && newResult[0][0]?.total_hm <= 150.00 ? "IST" : "error",
                     bulan: newResult[0][0]?.bulan ?? `${month}`,
                     tahun: newResult[0][0]?.tahun ?? `${year}`,
                 }
@@ -310,10 +226,52 @@ module.exports = {
                 let objResult = {
                     ...e,
                     keseringan_insiden_id: newResult[0][0]?.keseringan_insiden_id ?? 0,
-                    keseringan_insiden_hasil: newResult[0][0]?.hasil ?? 0,
-                    keseringan_insiden_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    keseringan_insiden_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
-                    keseringan_insiden_kategori: newResult[0][0]?.hasil == 4 ? "K" : newResult[0][0]?.hasil == 3 ? "C" : newResult[0][0]?.hasil == 2 ? "B" : newResult[0][0]?.hasil == 1 ? "BS" : newResult[0][0]?.hasil == 0 ? "IST" : "error",
+                    keseringan_insiden_hasil: newResult[0][0]?.hasil.toFixed(2) ?? 0,
+                    keseringan_insiden_nilai_mor: newResult[0][0]?.nilai_mor.toFixed(2) ?? 0,
+                    keseringan_insiden_bobot: 20,
+                    keseringan_insiden_nilai_akhir: ((newResult[0][0]?.nilai_mor ?? 0) * (20 / 100)).toFixed(2),
+                    keseringan_insiden_kategori: newResult[0][0]?.hasil >= 4 ? "K" : newResult[0][0]?.hasil == 3 ? "C" : newResult[0][0]?.hasil == 2 ? "B" : newResult[0][0]?.hasil == 1 ? "BS" : newResult[0][0]?.hasil == 0 ? "IST" : "error",
+                    bulan: newResult[0][0]?.bulan ?? `${month}`,
+                    tahun: newResult[0][0]?.tahun ?? `${year}`,
+                }
+
+                resultWithTingkatKehadiran.push(objResult)
+            }
+
+            arrayResult = resultWithTingkatKehadiran
+            resultWithTingkatKehadiran = []
+
+            for (let i = 0; i < arrayResult.length; i++) {
+                let e = arrayResult[i];
+
+                let newResult
+
+                let tingkatKehadiranQuery =
+                    `
+                    select * from (select uu.id as user_id, tk.id as pencapaian_produksi_id, tk.hasil, tk.nilai_mor, tk.nilai_akhir, tk.bulan, tk.tahun from pencapaian_produksis tk 
+                        left join pencapaian_produksis_user_name_links tkunl on tkunl.pencapaian_produksi_id = tk.id 
+                        left join up_users uu on uu.id = tkunl.user_id 
+                        where uu.id = ${e.user_id}) a
+                    `
+
+                if (whereQuerySecond.length != 0) {
+                    newResult = await strapi.db.connection.context.raw(
+                        `${tingkatKehadiranQuery} WHERE ${whereQuerySecond}`
+                    );
+                } else {
+                    newResult = await strapi.db.connection.context.raw(
+                        `${tingkatKehadiranQuery}`
+                    );
+                }
+
+                let objResult = {
+                    ...e,
+                    pencapaian_produksi_id: newResult[0][0]?.pencapaian_produksi_id ?? 0,
+                    pencapaian_produksi_hasil: newResult[0][0]?.hasil.toFixed(2) ?? 0,
+                    pencapaian_produksi_nilai_mor: newResult[0][0]?.nilai_mor.toFixed(2) ?? 0,
+                    pencapaian_produksi_bobot: 25,
+                    pencapaian_produksi_nilai_akhir: ((newResult[0][0]?.nilai_mor ?? 0) * (25 / 100)).toFixed(2),
+                    pencapaian_produksi_kategori: newResult[0][0]?.hasil <= 75.99 ? "K" : (newResult[0][0]?.hasil >= 76 && newResult[0][0]?.hasil <= 90.99) ? "C" : (newResult[0][0]?.hasil >= 91 && newResult[0][0]?.hasil <= 100.99) ? "B" : (newResult[0][0]?.hasil >= 101 && newResult[0][0]?.hasil <= 105.99) ? "BS" : newResult[0][0]?.hasil >= 106 ? "IST" : "error",
                     bulan: newResult[0][0]?.bulan ?? `${month}`,
                     tahun: newResult[0][0]?.tahun ?? `${year}`,
                 }
@@ -350,12 +308,85 @@ module.exports = {
                 let objResult = {
                     ...e,
                     hazard_report_id: newResult[0][0]?.hazard_report_id ?? 0,
-                    hazard_report_hasil: newResult[0][0]?.hasil ?? 0,
-                    hazard_report_nilai_mor: newResult[0][0]?.nilai_mor ?? 0,
-                    hazard_report_nilai_akhir: newResult[0][0]?.nilai_akhir ?? 0,
-                    hazard_report_kategori: newResult[0][0]?.hasil == 1 || newResult[0][0]?.hasil == 0 ? "K" : newResult[0][0]?.hasil == 2 ? "C" : newResult[0][0]?.hasil == 3 ? "B" : newResult[0][0]?.hasil == 4 ? "BS" : newResult[0][0]?.hasil == 5 ? "IST" : "error",
+                    hazard_report_hasil: newResult[0][0]?.hasil.toFixed(2) ?? 0,
+                    hazard_report_nilai_mor: newResult[0][0]?.nilai_mor.toFixed(2) ?? 0,
+                    hazard_report_bobot: 15,
+                    hazard_report_nilai_akhir: ((newResult[0][0]?.nilai_mor ?? 0) * (15 / 100)).toFixed(2),
+                    hazard_report_kategori: newResult[0][0]?.hasil == 1 || newResult[0][0]?.hasil == 0 ? "K" : newResult[0][0]?.hasil == 2 ? "C" : newResult[0][0]?.hasil == 3 ? "B" : newResult[0][0]?.hasil == 4 ? "BS" : newResult[0][0]?.hasil >= 5 ? "IST" : "error",
                     bulan: newResult[0][0]?.bulan ?? `${month}`,
                     tahun: newResult[0][0]?.tahun ?? `${year}`,
+                }
+
+                resultWithTingkatKehadiran.push(objResult)
+            }
+
+            arrayResult = resultWithTingkatKehadiran
+            resultWithTingkatKehadiran = []
+
+            for (let i = 0; i < arrayResult.length; i++) {
+                let e = arrayResult[i];
+
+                let objResult = {
+                    ...e,
+                    hmxproduksi_hasil: (Number(e.hours_meter_nilai_mor).toFixed(2) * Number(e.pencapaian_produksi_nilai_mor).toFixed(2)).toFixed(2),
+                    hmxproduksi_nilai_mor: (Number(getMorKombinasi(Number(e.hours_meter_nilai_mor).toFixed(2) * Number(e.pencapaian_produksi_nilai_mor).toFixed(2)))).toFixed(2),
+                    hmxproduksi_bobot: 45,
+                    hmxproduksi_nilai_akhir: ((Number(getMorKombinasi(Number(e.hours_meter_nilai_mor).toFixed(2) * Number(e.pencapaian_produksi_nilai_mor).toFixed(2)))) * (45 / 100)).toFixed(2),
+                    ifrxhazard_hasil: (Number(e.keseringan_insiden_nilai_mor).toFixed(2) * Number(e.hazard_report_nilai_mor).toFixed(2)).toFixed(2),
+                    ifrxhazard_nilai_mor: (Number(getMorKombinasi(Number(e.keseringan_insiden_nilai_mor).toFixed(2) * Number(e.hazard_report_nilai_mor).toFixed(2)))).toFixed(2),
+                    ifrxhazard_bobot: 35,
+                    ifrxhazard_nilai_akhir: ((Number(getMorKombinasi(Number(e.keseringan_insiden_nilai_mor).toFixed(2) * Number(e.hazard_report_nilai_mor).toFixed(2)))) * (35 / 100)).toFixed(2),
+                }
+
+                resultWithTingkatKehadiran.push(objResult)
+            }
+
+            arrayResult = resultWithTingkatKehadiran
+            resultWithTingkatKehadiran = []
+
+            for (let i = 0; i < arrayResult.length; i++) {
+                let e = arrayResult[i];
+
+                let objResult = {
+                    ...e,
+                    total_nilai_akhir: (Number(e.hmxproduksi_nilai_akhir) + Number(e.ifrxhazard_nilai_akhir) + Number(e.tingkat_kehadiran_nilai_akhir)).toFixed(2),
+                    total_keterangan: getNilaiAkhirMOR(Number(e.hmxproduksi_nilai_akhir) + Number(e.ifrxhazard_nilai_akhir) + Number(e.tingkat_kehadiran_nilai_akhir)),
+                }
+
+                resultWithTingkatKehadiran.push(objResult)
+            }
+
+            arrayResult = resultWithTingkatKehadiran
+            resultWithTingkatKehadiran = []
+
+            for (let i = 0; i < arrayResult.length; i++) {
+                let e = arrayResult[i];
+
+                let newResult
+
+                let tingkatKehadiranQuery =
+                    `
+                    select * from (select uu.id as user_id, tk.id as indispliner_id, tk.jenis_disiplin_report , tk.pasal_pelanggaran , tk.start_date , tk.end_date from data_surat_peringatans tk 
+                        left join data_surat_peringatans_user_name_links tkunl on tkunl.data_surat_peringatan_id = tk.id 
+                        left join up_users uu on uu.id = tkunl.user_id 
+                        where uu.id = ${e.user_id}) a ORDER BY indispliner_id desc
+                    `
+
+                newResult = await strapi.db.connection.context.raw(
+                    `${tingkatKehadiranQuery}`
+                );
+
+                let objResult = { ...e }
+
+                if (newResult[0].length !== 0) {
+                    objResult = {
+                        ...e,
+                        indisipliner_tanggal_berlaku: newResult[0][0]?.start_date !== "Invalid Date" ? getFormatDate(newResult[0][0].start_date) : "-",
+                        indisipliner_tanggal_berakhir: newResult[0][0]?.end_date !== "Invalid Date" ? getFormatDate(newResult[0][0].end_date) : "-",
+                        indisipliner_jenis: newResult[0][0]?.jenis_disiplin_report,
+                        indisipliner_pasal: newResult[0][0]?.pasal_pelanggaran,
+                        indisipliner_status: newResult[0][0]?.end_date !== "Invalid Date" ? getStatus(newResult[0][0].end_date) : "-"
+                    }
                 }
 
                 resultWithTingkatKehadiran.push(objResult)

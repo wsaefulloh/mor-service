@@ -11,12 +11,47 @@ const { getNilaiMorKaryawan } = require("./serve-data-api/nilai-mor");
 const { login } = require("./serve-data-api/login");
 const { importMor } = require("./serve-data-api/import-mor");
 const { getStatusImport } = require("./serve-data-api/status-import");
+const { getSuratPeringatan } = require("./serve-data-api/surat-peringatan");
 
 /**
  * serve-data service
  */
 
 module.exports = () => ({
+
+    getSuratPeringatanAPI: async (req) => {
+        try {
+            let authentication = req.headers.authorization;
+            let searchComponent = req.query;
+
+            let result = await getSuratPeringatan(
+                searchComponent,
+                authentication
+            );
+
+            let payload = {
+                status: 200,
+                message: "OK",
+                data: {
+                    data: {
+                        itemCount: result.itemCount,
+                        data: result.data,
+                        pageCount: result.pageCount,
+                        currentPage: result.currentPage,
+                    },
+                },
+            };
+
+            return payload;
+        } catch (error) {
+            console.log(error);
+            let payload = {
+                status: 500,
+                message: error,
+            };
+            return payload;
+        }
+    },
 
     getStatusImportService: async (req) => {
         try {

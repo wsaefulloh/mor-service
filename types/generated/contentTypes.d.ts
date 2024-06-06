@@ -796,6 +796,47 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiDataSuratPeringatanDataSuratPeringatan
+  extends Schema.CollectionType {
+  collectionName: 'data_surat_peringatans';
+  info: {
+    singularName: 'data-surat-peringatan';
+    pluralName: 'data-surat-peringatans';
+    displayName: 'Data Surat Peringatan';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    user_name: Attribute.Relation<
+      'api::data-surat-peringatan.data-surat-peringatan',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    start_date: Attribute.String;
+    end_date: Attribute.String;
+    jenis_disiplin_report: Attribute.String;
+    pasal_pelanggaran: Attribute.Text;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::data-surat-peringatan.data-surat-peringatan',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::data-surat-peringatan.data-surat-peringatan',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiDisiplinKerjaDisiplinKerja extends Schema.CollectionType {
   collectionName: 'disiplin_kerjas';
   info: {
@@ -953,6 +994,48 @@ export interface ApiKeseringanInsidenKeseringanInsiden
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::keseringan-insiden.keseringan-insiden',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPencapaianProduksiPencapaianProduksi
+  extends Schema.CollectionType {
+  collectionName: 'pencapaian_produksis';
+  info: {
+    singularName: 'pencapaian-produksi';
+    pluralName: 'pencapaian-produksis';
+    displayName: 'Pencapaian Produksi';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    user_name: Attribute.Relation<
+      'api::pencapaian-produksi.pencapaian-produksi',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    nilai_mor: Attribute.Decimal;
+    nilai_akhir: Attribute.Decimal;
+    hasil: Attribute.Decimal;
+    bulan: Attribute.String;
+    tahun: Attribute.String;
+    created_by_id_user: Attribute.Integer;
+    updated_by_id_user: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::pencapaian-produksi.pencapaian-produksi',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::pencapaian-produksi.pencapaian-produksi',
       'oneToOne',
       'admin::user'
     > &
@@ -1127,10 +1210,12 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::data-surat-peringatan.data-surat-peringatan': ApiDataSuratPeringatanDataSuratPeringatan;
       'api::disiplin-kerja.disiplin-kerja': ApiDisiplinKerjaDisiplinKerja;
       'api::hazard-report.hazard-report': ApiHazardReportHazardReport;
       'api::hours-meter.hours-meter': ApiHoursMeterHoursMeter;
       'api::keseringan-insiden.keseringan-insiden': ApiKeseringanInsidenKeseringanInsiden;
+      'api::pencapaian-produksi.pencapaian-produksi': ApiPencapaianProduksiPencapaianProduksi;
       'api::productivity-individu.productivity-individu': ApiProductivityIndividuProductivityIndividu;
       'api::role-mor.role-mor': ApiRoleMorRoleMor;
       'api::status-import.status-import': ApiStatusImportStatusImport;

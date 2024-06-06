@@ -5,6 +5,17 @@
  */
 
 module.exports = {
+  getSuratPeringatanCtr: async (ctx, next) => {
+    try {
+      const data = await strapi
+        .service("api::serve-data.serve-data")
+        .getSuratPeringatanAPI(ctx.request);
+      ctx.response.status = data.status;
+      ctx.body = data;
+    } catch (err) {
+      ctx.badRequest("Location Name controller error", { moreDetails: err });
+    }
+  },
 
   getStatusImportCtr: async (ctx, next) => {
     try {
