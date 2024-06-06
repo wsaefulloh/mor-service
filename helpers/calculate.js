@@ -11,46 +11,78 @@ const getMorKombinasi = (value) => {
     return result_mor;
 };
 
-const getNilaiAkhirMOR = (value) => {
+const getNilaiAkhirMOR = (kehadiran, hmxproduksi, ifrxhazard) => {
+
+    let kategori
+    let catatan_1
+    let catatan_2
+    let catatan_3
+
+    let value = kehadiran + hmxproduksi + ifrxhazard
 
     if (value <= 1.99) {
-        return {
-            kategori: "K",
-            catatan_1: "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima.",
-            catatan_2: "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor).",
-            catatan_3: "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
-        }
+        kategori = "K"
     } else if (value >= 2.00 && value <= 2.99) {
-        return {
-            kategori: "C",
-            catatan_1: "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima.",
-            catatan_2: "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor).",
-            catatan_3: "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
-        }
+        kategori = "C"
     } else if (value >= 3.00 && value <= 3.99) {
-        return {
-            kategori: "B",
-            catatan_1: "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima.",
-            catatan_2: "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor).",
-            catatan_3: "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
-        }
+        kategori = "B"
     } else if (value >= 4.00 && value <= 4.99) {
-        return {
-            kategori: "BS",
-            catatan_1: "Terima kasih atas usaha anda dalam mempertahankan tingkat kehadrian (ATR) sesuai dengan yang sudah ditentukan. Harapannya pencapaian seperti ini dapat dipertahankan pada periode bulan selanjutnya.",
-            catatan_2: "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor).",
-            catatan_3: "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
-        }
+        kategori = "BS"
     } else if (value >= 5.00) {
-        return {
-            kategori: "IST",
-            catatan_1: "Terima kasih atas usaha anda dalam mempertahankan tingkat kehadrian (ATR) sesuai dengan yang sudah ditentukan. Harapannya pencapaian seperti ini dapat dipertahankan pada periode bulan selanjutnya.",
-            catatan_2: "Terima kasih telah proaktif dalam pelaporan timesheet dan pelaporan ritase kepada CCR. Terima kasih atas kontribusi anda terhadap pencapaian produksi, harapannya pencapaian seperti ini dapat ditingkatkan pada periode bulan selanjutnya.",
-            catatan_3: "Terima kasih atas kontribusi anda dalam melaporkan temuan KTA/TTA pada area kerja anda. Harapannya pencapaian seperti ini dapat ditingkatkan pada periode bulan selanjutnya."
-        }
+        kategori = "IST"
     } else {
-        return "error"
+        kategori = "error"
     }
+
+    if (kehadiran <= 1.99) {
+        catatan_1 = "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima."
+    } else if (kehadiran >= 2.00 && kehadiran <= 2.99) {
+        catatan_1 = "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima."
+    } else if (kehadiran >= 3.00 && kehadiran <= 3.99) {
+        catatan_1 = "Kehadiran yang tidak teratur ini dapat mengganggu produktivitas tim dan menciptakan ketidakstabilan pada lingkungan kerja. Komunikasikan kepada GL Man Power selambat-lambatnya pada hari pertama jika tidak berangkat bekerja disertai dengan alasan logis (Surat Dokter, Surat Tugas, Surat Izin Resmi sesuai peraturan perundang-undangan dan atau peraturan perusahaan, dsb.). Dilarang pulang lebih awal dari waktu yang telah ditentukan tanpa izin atau alasan yang tidak dapat diterima."
+    } else if (kehadiran >= 4.00 && kehadiran <= 4.99) {
+        catatan_1 = "Terima kasih atas usaha anda dalam mempertahankan tingkat kehadrian (ATR) sesuai dengan yang sudah ditentukan. Harapannya pencapaian seperti ini dapat dipertahankan pada periode bulan selanjutnya."
+    } else if (kehadiran >= 5.00) {
+        catatan_1 = "Terima kasih atas usaha anda dalam mempertahankan tingkat kehadrian (ATR) sesuai dengan yang sudah ditentukan. Harapannya pencapaian seperti ini dapat dipertahankan pada periode bulan selanjutnya."
+    } else {
+        kategori = "error"
+    }
+
+    if (hmxproduksi <= 1.99) {
+        catatan_2 = "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor)."
+    } else if (kehadiran >= 2.00 && kehadiran <= 2.99) {
+        catatan_2 = "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor)."
+    } else if (kehadiran >= 3.00 && kehadiran <= 3.99) {
+        catatan_2 = "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor)."
+    } else if (kehadiran >= 4.00 && kehadiran <= 4.99) {
+        catatan_2 = "Tidak menunjukkan inisiatif bekerja lebih baik untuk memenuhi target kerja yang ditentukan. Dilarang membiarkan mesin/unit tanpa melakukan aktivitas pekerjaan (ngompor)."
+    } else if (kehadiran >= 5.00) {
+        catatan_2 = "Terima kasih telah proaktif dalam pelaporan timesheet dan pelaporan ritase kepada CCR. Terima kasih atas kontribusi anda terhadap pencapaian produksi, harapannya pencapaian seperti ini dapat ditingkatkan pada periode bulan selanjutnya."
+    } else {
+        kategori = "error"
+    }
+
+    if (hmxproduksi <= 1.99) {
+        catatan_3 = "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
+    } else if (kehadiran >= 2.00 && kehadiran <= 2.99) {
+        catatan_3 = "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
+    } else if (kehadiran >= 3.00 && kehadiran <= 3.99) {
+        catatan_3 = "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
+    } else if (kehadiran >= 4.00 && kehadiran <= 4.99) {
+        catatan_3 = "Tidak berperan aktif dalam menciptakan lingkungan kerja yang aman dengan tidak melaporkan temuan KTA/TTA pada area kerja. Laporkan temuan KTA/TTA minimal 4 temuan dalam 1 bulan."
+    } else if (kehadiran >= 5.00) {
+        catatan_3 = "Terima kasih atas kontribusi anda dalam melaporkan temuan KTA/TTA pada area kerja anda. Harapannya pencapaian seperti ini dapat ditingkatkan pada periode bulan selanjutnya."
+    } else {
+        kategori = "error"
+    }
+
+    return {
+        kategori: kategori,
+        catatan_1: catatan_1,
+        catatan_2: catatan_2,
+        catatan_3: catatan_3
+    }
+
 };
 
 const getFormatDate = (value) => {

@@ -350,7 +350,7 @@ module.exports = {
                 let objResult = {
                     ...e,
                     total_nilai_akhir: (Number(e.hmxproduksi_nilai_akhir) + Number(e.ifrxhazard_nilai_akhir) + Number(e.tingkat_kehadiran_nilai_akhir)).toFixed(2),
-                    total_keterangan: getNilaiAkhirMOR(Number(e.hmxproduksi_nilai_akhir) + Number(e.ifrxhazard_nilai_akhir) + Number(e.tingkat_kehadiran_nilai_akhir)),
+                    total_keterangan: getNilaiAkhirMOR(Number(e.hmxproduksi_nilai_mor), Number(e.ifrxhazard_nilai_mor), Number(e.tingkat_kehadiran_nilai_mor)),
                 }
 
                 resultWithTingkatKehadiran.push(objResult)
